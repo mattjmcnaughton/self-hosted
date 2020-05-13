@@ -1,0 +1,13 @@
+network:
+  ethernets:
+    eth0:
+      dhcp4: true
+      optional: true
+  wifis:
+    wlan0:
+      optional: true
+      dhcp4: true
+      access-points:
+        "Network SSID":
+          password: "Password"
+  version: 2
