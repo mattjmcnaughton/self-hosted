@@ -1,0 +1,24 @@
+---
+- name: Manage networking config via netplan, as root
+  block:
+    # @TODO (mattjmcnaughton) For now, I assume we're running this on Ubuntu,
+    # which feels like a safe assumption.
+    - name: Update apt cache if necessary
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install netplan.io package
+      apt:
+        pkg: netplan.io
+        state: present
+
+    - name: Install netplan config
+      template:
+        src: "netplan-config.yml.j2"
+        dest: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_netplan_config_path }}"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: regenerate netplan config
+  become: yes

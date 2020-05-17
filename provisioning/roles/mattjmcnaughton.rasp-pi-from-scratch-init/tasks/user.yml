@@ -1,0 +1,50 @@
+---
+- name: Perform user management as root
+  block:
+    # @TODO (mattjmcnaughton) For now, I assume we're running this on Ubuntu,
+    # which feels like a safe assumption.
+    - name: Update apt cache if necessary
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install ssh server
+      apt:
+        pkg: openssh-server
+        state: present
+
+    - name: Create user
+      user:
+        name: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}"
+        create_home: yes
+        generate_ssh_key: no
+        groups: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_extra_groups }}"
+        # Easiest way is to use ` vars_prompt` w/ `private: yes` and then
+        # `encrypt` and `salt_size` set.
+        password: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_encrypted_password }}"
+        shell: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_user_shell }}"
+        uid: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_user_uid }}"
+        update_password: on_create
+
+    - name: Set fact for home directory
+      set_fact:
+        mattjmcnaughton_rasp_pi_from_scratch_init_home_dir_path: "/home/{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}"
+
+    - name: Create ssh config dir for user
+      file:
+        path: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_home_dir_path }}/.ssh"
+        state: directory
+        owner: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}"
+        group: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}"
+        mode: '0775'
+
+    - name: Copy public ssh key for user into authorized keys
+      copy:
+        src: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_public_ssh_key_path }}"
+        dest: "/home/{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}/.ssh/authorized_keys"
+        owner: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}"
+        group: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_username }}"
+        mode: '0600'
+      notify: restart ssh server
+  become: yes
+

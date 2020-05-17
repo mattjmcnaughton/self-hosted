@@ -1,0 +1,27 @@
+---
+- block:
+  - name: Make filesystem
+    filesystem:
+      fstype: "{{ item.fstype }}"
+      dev: "{{ item.device_path }}"
+      force: yes
+    with_items: "{{ mattjmcnaughton_rasp_pi_from_scratch_filesystems }}"
+
+  - name: Make directory for mount
+    file:
+      path: "{{ item.mount_path }}"
+      state: directory
+      owner: "root"
+      group: "root"
+      mode: "0755"
+    with_items: "{{ mattjmcnaughton_rasp_pi_from_scratch_filesystems }}"
+
+  - name: Mount device
+    mount:
+      path: "{{ item.mount_path }}"
+      src: "{{ item.device_path }}"
+      fstype: "{{ item.fstype }}"
+      state: "mounted"
+    with_items: "{{ mattjmcnaughton_rasp_pi_from_scratch_filesystems }}"
+
+  become: yes

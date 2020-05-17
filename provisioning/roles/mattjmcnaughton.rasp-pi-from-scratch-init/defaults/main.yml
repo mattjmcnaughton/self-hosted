@@ -1,0 +1,7 @@
+---
+mattjmcnaughton_rasp_pi_from_scratch_init_netplan_config_path: "/etc/netplan/99-config.yaml"
+
+mattjmcnaughton_rasp_pi_from_scratch_init_user_shell: "/usr/bin/bash"
+mattjmcnaughton_rasp_pi_from_scratch_init_user_uid: 1001
+mattjmcnaughton_rasp_pi_from_scratch_init_extra_groups:
+  - "sudo"

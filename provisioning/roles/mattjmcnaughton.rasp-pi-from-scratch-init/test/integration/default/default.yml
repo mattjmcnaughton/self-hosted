@@ -1,0 +1,27 @@
+- hosts: all
+
+  tasks:
+    - name: Create loopback device
+      shell: |
+        argv:
+          umount /opt/test || true
+          rm -rf /opt/test || true
+          losetup -d /dev/loop0 || true
+          rm /tmp/loopbackfile.img || true
+          dd if=/dev/zero of=/tmp/loopbackfile.img bs=100M count=10
+          losetup -fP /tmp/loopbackfile.img
+      become: yes
+    - include_role:
+        name: mattjmcnaughton.rasp-pi-from-scratch-init
+      vars:
+        mattjmcnaughton_rasp_pi_from_scratch_init_hostname: "test-hostname"
+        mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_ssid: "test-ssid"
+        mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_password: "test-password"
+
+        mattjmcnaughton_rasp_pi_from_scratch_init_username: "test_user"
+        mattjmcnaughton_rasp_pi_from_scratch_init_encrypted_password: "{{ 'testpass' | password_hash('sha512') }}"
+        mattjmcnaughton_rasp_pi_from_scratch_init_public_ssh_key_path: "test/integration/default/test_ssh_key.pub"
+        mattjmcnaughton_rasp_pi_from_scratch_filesystems:
+          - fstype: "ext4"
+            device_path: "/dev/loop0"
+            mount_path: "/opt/test"

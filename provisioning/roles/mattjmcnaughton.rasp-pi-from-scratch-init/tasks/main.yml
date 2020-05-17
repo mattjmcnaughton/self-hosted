@@ -1,0 +1,12 @@
+---
+- name: Configure hostname
+  include_tasks: "hostname.yml"
+
+- name: Configure networking
+  include_tasks: "networking.yml"
+
+- name: Configure user
+  include_tasks: "user.yml"
+
+- name: Configure filesystem
+  include_tasks: "filesystem.yml"

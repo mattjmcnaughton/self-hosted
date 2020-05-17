@@ -1,0 +1,13 @@
+network:
+  ethernets:
+    eth0:
+      dhcp4: true
+      optional: true
+  wifis:
+    wlan0:
+      optional: true
+      dhcp4: true
+      access-points:
+        "{{ mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_ssid }}":
+          password: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_password }}"
+  version: 2

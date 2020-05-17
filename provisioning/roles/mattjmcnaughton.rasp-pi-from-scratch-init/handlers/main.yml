@@ -1,0 +1,15 @@
+---
+# The new configuration will take effect the next time the host restarts.
+# We don't want to immediately apply it in case it messes up the current ssh
+# connection (which could happen if it cases the IP address to change).
+- name: Regenerate netplan config
+  command: netplan generate
+  listen: regenerate netplan config
+  become: yes
+
+- name: Restart ssh server
+  service:
+    name: ssh
+    state: restarted
+  listen: restart ssh server
+  become: yes

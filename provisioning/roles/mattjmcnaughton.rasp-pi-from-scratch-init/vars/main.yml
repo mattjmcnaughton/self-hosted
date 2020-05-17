@@ -1,0 +1,12 @@
+---
+mattjmcnaughton_rasp_pi_from_scratch_init_hostname: ""
+
+mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_ssid: ""
+mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_password: ""
+
+mattjmcnaughton_rasp_pi_from_scratch_init_username: ""
+mattjmcnaughton_rasp_pi_from_scratch_init_encrypted_password: ""
+mattjmcnaughton_rasp_pi_from_scratch_init_public_ssh_key_path: ""
+
+# Specify device path, mount path, and fstype keys.
+mattjmcnaughton_rasp_pi_from_scratch_filesystems: []
