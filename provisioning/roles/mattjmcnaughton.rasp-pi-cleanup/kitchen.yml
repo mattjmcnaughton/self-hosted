@@ -1,0 +1,30 @@
+---
+driver:
+  # Use vagrant because we are relying upon systemd services.
+  name: vagrant
+
+platforms:
+  # Will run tests for each platform
+  # @TODO(mattjmcnaughton) I'd really like to use Ubuntu 20.04 here (as that's
+  # what I'm using on the Rasp Pi's), but none of the `kitchen-ansible`
+  # provisioner methods for installing ansible work w/ 20.04.
+  - name: ubuntu-18.04
+    driver_config:
+      box: bento/ubuntu-18.04
+
+# Will automatically execute the playbook in
+# `test/integration/${suite}/${suite}.yml`
+provisioner:
+  hosts: test-kitchen
+  name: ansible_playbook
+  roles_path: ../
+  ansible_verbose: false
+  ansible_version: latest
+  require_chef_for_busser: false
+
+# Will automatically run tests in `test/integration/${suite}`
+verifier:
+  name: inspec
+
+suites:
+  - name: default

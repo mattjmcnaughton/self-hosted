@@ -1,2 +1,6 @@
 ---
-# defaults file for mattjmcnaughton.rasp-pi-cleanup
+mattjmcnaughton_rasp_pi_cleanup_users_to_remove:
+  - "ubuntu"
+
+mattjmcnaughton_rasp_pi_cleanup_ssh_disable_password: true
+mattjmcnaughton_rasp_pi_cleanup_sshd_config_path: "/etc/ssh/sshd_config"

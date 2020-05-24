@@ -1,2 +1,6 @@
 ---
-# tasks file for mattjmcnaughton.rasp-pi-cleanup
+- name: Configure user
+  include_tasks: "user.yml"
+
+- name: Configure ssh
+  include_tasks: "ssh.yml"

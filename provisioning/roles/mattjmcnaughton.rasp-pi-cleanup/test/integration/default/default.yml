@@ -1,0 +1,10 @@
+- hosts: all
+
+  tasks:
+    # Create the ubuntu user so that we can verify we delete it.
+    - user:
+        name: ubuntu
+      become: yes
+
+    - include_role:
+        name: mattjmcnaughton.rasp-pi-cleanup

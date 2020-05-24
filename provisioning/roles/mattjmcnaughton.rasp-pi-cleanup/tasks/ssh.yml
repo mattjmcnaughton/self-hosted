@@ -1,0 +1,24 @@
+---
+- name: Perform ssh configuration update as root
+  block:
+    - name: Disable empty password login
+      lineinfile:
+        dest: "{{ mattjmcnaughton_rasp_pi_cleanup_sshd_config_path }}"
+        regexp: "^#?PermitEmptyPasswords"
+        line: "PermitEmptyPasswords no"
+      notify: restart ssh server
+
+    - name: Disable remote root login
+      lineinfile:
+        dest: "{{ mattjmcnaughton_rasp_pi_cleanup_sshd_config_path }}"
+        regexp: "^#?PermitRootLogin"
+        line: "PermitRootLogin no"
+      notify: restart ssh server
+
+    - name: Disable password login
+      lineinfile:
+        dest: "{{ mattjmcnaughton_rasp_pi_cleanup_sshd_config_path }}"
+        regexp: "^#?PasswordAuthentication"
+        line: "PasswordAuthentication no"
+      notify: restart ssh server
+  become: yes

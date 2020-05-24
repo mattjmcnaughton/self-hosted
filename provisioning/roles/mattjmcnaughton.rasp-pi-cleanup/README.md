@@ -1,42 +1,39 @@
-Role Name
+mattjmcnaughton.rasp-pi-cleanup
 =========
 
-Clean up actions to take on a Rasp Pi server. This role should only be applied
-to a host after we've successfully run the `rasp-pi-from-scratch-init` playbook.
+Clean up steps to take after running
+`mattjmcnaughton.rasp-pi-from-scratch-init`. Its a separate role, bc it should
+be run via a separate `ansible-playbook` run (bc will use separate ssh
+connection).
 
-Clean up actions include:
-- Delete default `ubuntu` user.
+Note, if I start provisioning locally hosted servers OTHER than Rasp Pis, I will
+look into more generic naming.
 
-Requirements
-------------
+We aim to keep this role as lightweight as possible - we'll typically run it by
+itself as a second step for any new Rasp Pi, but will want to write later
+roles/playbooks assuming the things it provides are already in place.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role configures the following:
+- Delete the default `ubuntu` user.
+- Disable password ssh.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+See `vars/main.yml`.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+This role assumes that you've provisioned a way to communicate w/ the server
+outside of password ssh on the `ubuntu` user.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+TBD.
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Apache
