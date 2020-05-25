@@ -2,4 +2,5 @@
 - name: Update hostname
   hostname:
     name: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_hostname }}"
+  become: yes
   when: mattjmcnaughton_rasp_pi_from_scratch_init_hostname != ""

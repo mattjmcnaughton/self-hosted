@@ -25,6 +25,7 @@
         shell: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_user_shell }}"
         uid: "{{ mattjmcnaughton_rasp_pi_from_scratch_init_user_uid }}"
         update_password: on_create
+      no_log: true
 
     - name: Set fact for home directory
       set_fact:

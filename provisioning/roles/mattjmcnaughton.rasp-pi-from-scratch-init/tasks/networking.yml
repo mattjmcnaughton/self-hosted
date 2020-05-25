@@ -20,5 +20,6 @@
         owner: root
         group: root
         mode: '0644'
+      no_log: true
       notify: regenerate netplan config
   become: yes

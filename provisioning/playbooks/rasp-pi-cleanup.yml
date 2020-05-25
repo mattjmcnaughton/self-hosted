@@ -1,0 +1,8 @@
+---
+# Run w/ the following:
+# `ansible-playbook -K -i IP_ADDRESS, rasp-pi-cleanup.yml`
+
+- hosts: all
+  tasks:
+    - include_role:
+        name: mattjmcnaughton.rasp-pi-cleanup

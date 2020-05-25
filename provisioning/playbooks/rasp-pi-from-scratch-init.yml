@@ -1,0 +1,77 @@
+---
+# Run w/ the following:
+# `ansible-playbook -u ubuntu -K --ask-pass -i IP_ADDRESS, rasp-pi-from-scratch-init.yml`
+
+- hosts: all
+
+  vars:
+    filesystems: []
+
+  vars_prompt:
+    - name: "hostname"
+      prompt: "hostname"
+      private: no
+
+    - name: "wifi_ssid"
+      prompt: "wifi_ssid"
+      private: no
+
+    - name: "wifi_password"
+      prompt: "wifi_password"
+      confirm: yes
+      private: yes
+
+    - name: "username"
+      prompt: "username"
+      default: "mattjmcnaughton"
+      private: no
+
+    - name: "encrypted_password"
+      prompt: "password"
+      private: yes
+      encrypt: "sha512_crypt"
+      confirm: yes
+      salt_size: 7
+
+    - name: "public_ssh_key_path"
+      prompt: "public_ssh_key_path"
+      private: no
+
+    - name: "filesystem_should_configure"
+      prompt: "filesystem_should_configure"
+      default: "yes"
+      private: no
+
+    - name: "filesystem_device_path"
+      prompt: "filesystem_device_path"
+      default: "/dev/sda1"
+      private: no
+
+    - name: "filesystem_mount_path"
+      prompt: "filesystem_mount_path"
+      default: "/opt/fs"
+      private: no
+
+    - name: "filesystem_fstype"
+      prompt: "filesystem_fstype"
+      default: "ext4"
+      private: no
+
+  tasks:
+    set_fact:
+      filesystems:
+        - fstype: "{{ filesystem_fstype }}"
+          device_path: "{{ filesystem_device_path }}"
+          mount_path: "{{ filesystem_mount_path }}"
+    when: filesystem_should_configure == "yes"
+
+    - include_role:
+        name: mattjmcnaughton.rasp-pi-from-scratch-init
+      vars:
+        mattjmcnaughton_rasp_pi_from_scratch_init_hostname: "{{ hostname }}"
+        mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_ssid: "{{ wifi_ssid }}"
+        mattjmcnaughton_rasp_pi_from_scratch_init_netplan_wifi_password: "{{ wifi_password }}"
+        mattjmcnaughton_rasp_pi_from_scratch_init_username: "{{ username }}"
+        mattjmcnaughton_rasp_pi_from_scratch_init_encrypted_password: "{{ encrypted_password }}"
+        mattjmcnaughton_rasp_pi_from_scratch_init_public_ssh_key_path: "{{ public_ssh_key_path }}"
+        mattjmcnaughton_rasp_pi_from_scratch_filesystems: "{{ filesystems }}"
