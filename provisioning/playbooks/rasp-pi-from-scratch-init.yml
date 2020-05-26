@@ -58,12 +58,12 @@
       private: no
 
   tasks:
-    set_fact:
-      filesystems:
-        - fstype: "{{ filesystem_fstype }}"
-          device_path: "{{ filesystem_device_path }}"
-          mount_path: "{{ filesystem_mount_path }}"
-    when: filesystem_should_configure == "yes"
+    - set_fact:
+        filesystems:
+          - fstype: "{{ filesystem_fstype }}"
+            device_path: "{{ filesystem_device_path }}"
+            mount_path: "{{ filesystem_mount_path }}"
+      when: filesystem_should_configure == "yes"
 
     - include_role:
         name: mattjmcnaughton.rasp-pi-from-scratch-init

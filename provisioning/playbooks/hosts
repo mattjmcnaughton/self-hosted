@@ -1,7 +1,15 @@
 # Inventory file
+#
+# For now, this uses temporary IPs for my Raspberry PI's on my home network.
+# When I'm in a more permanent location, I'll work on assigning static ips.
+# For now, the IPs should stay relatively constant if I don't restart the Pi's
+# (which I don't plan to do).
 
 [git]
+10.0.0.110
 
 [nfs]
+10.0.0.182
 
 [wg]
+10.0.0.221
