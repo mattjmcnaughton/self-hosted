@@ -1,0 +1,26 @@
+---
+# Update all system packages for my Raspberry Pi's.
+#
+# If the update behavior grows in complexity beyond just packages, I may
+# transform this playbook into its own role.
+#
+# Aim to run ~1x per week.
+
+- hosts: all
+
+  tasks:
+    - name: Perform apt tasks as root
+      block:
+      - name: Perform apt update
+        apt:
+          upgrade: safe
+          update_cache: yes
+
+      - name: Remote useless packages from the cache
+        apt:
+          autoclean: yes
+
+      - name: Remote dependencies that are no longer required
+        apt:
+          autoremove: yes
+      become: yes
