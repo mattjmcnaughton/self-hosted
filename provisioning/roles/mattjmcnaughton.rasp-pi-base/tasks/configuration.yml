@@ -1,0 +1,9 @@
+---
+- name: Copy configuration files
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ mattjmcnaughton_rasp_pi_base_username }}/.{{ item }}"
+    owner: "{{ mattjmcnaughton_rasp_pi_base_username }}"
+    group: "{{ mattjmcnaughton_rasp_pi_base_username }}"
+    mode: "0664"
+  with_items: "{{ mattjmcnaughton_rasp_pi_base_config_files }}"

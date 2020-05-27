@@ -1,2 +1,15 @@
 ---
-# tasks file for mattjmcnaughton.rasp-pi-base
+- name: Install packages
+  include_tasks: "packages.yml"
+
+- name: Configuration files
+  include_tasks: "configuration.yml"
+
+- name: Firewall
+  include_tasks: "firewall.yml"
+
+- name: Automatic updates
+  include_tasks: "updates.yml"
+
+# Potentially, in the future we may have some form of DNS registration. That's
+# TBD though.

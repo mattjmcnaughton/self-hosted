@@ -1,0 +1,7 @@
+---
+- hosts: wireguard
+  tasks:
+    - include_role:
+        name: mattjmcnaughton.rasp-pi-base
+      vars:
+        mattjmcnaughton_rasp_pi_base_username: "mattjmcnaughton"

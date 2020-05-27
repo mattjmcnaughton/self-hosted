@@ -1,0 +1,12 @@
+- hosts: all
+
+  tasks:
+    - name: Create user
+      user:
+        name: "mattjmcnaughton"
+        create_home: yes
+
+    - include_role:
+        name: mattjmcnaughton.rasp-pi-base
+      vars:
+        mattjmcnaughton_rasp_pi_base_username: "mattjmcnaughton"

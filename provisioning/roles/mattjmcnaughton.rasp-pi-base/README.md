@@ -10,7 +10,7 @@ It performs the following actions:
 - Set up security updates (or should that come in a separate hardening role)
 - Set up hardening (SSH config)
 - Set up firewall
-- Register w/ DNS
+- Register w/ DNS [TODO]
 
 Requirements
 ------------

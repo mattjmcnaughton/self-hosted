@@ -1,0 +1,12 @@
+---
+- name: Perform apt tasks as root
+  block:
+    - name: "Perform apt update"
+      apt:
+        update_cache: yes
+
+    - name: "Install packages"
+      apt:
+        pkg: "{{ mattjmcnaughton_rasp_pi_base_packages_to_install }}"
+        state: present
+  become: yes

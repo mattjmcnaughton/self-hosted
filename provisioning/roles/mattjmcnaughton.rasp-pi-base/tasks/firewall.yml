@@ -1,0 +1,45 @@
+---
+- name: Perform firewall updates as root
+  block:
+    - name: "Perform apt update"
+      apt:
+        update_cache: yes
+
+    - name: "Install ufw"
+      apt:
+        pkg: "ufw"
+        state: present
+
+    - name: Turn on ufw
+      ufw:
+        state: enabled
+
+    - name: Turn on ufw logging
+      ufw:
+        logging: 'on'
+
+    # Denying inbound traffic won't impact already accepted connections (i.e. we
+    # don't need to worry about this negatively impacting the ssh connection
+    # we're already connected).
+    - name: Deny all inbound traffic by default
+      ufw:
+        default: deny
+        direction: incoming
+
+    - name: Allow all outbound traffic by default
+      ufw:
+        default: allow
+        direction: outgoing
+
+    - name: Allow incoming traffic on specified ports
+      ufw:
+        rule: allow
+        port: "{{ item }}"
+      loop: "{{ mattjmcnaughton_rasp_pi_base_ufw_incoming_ports_to_allow }}"
+
+    - name: Deny incoming traffic on specified ports
+      ufw:
+        rule: deny
+        port: "{{ item }}"
+      loop: "{{ mattjmcnaughton_rasp_pi_base_ufw_incoming_ports_to_deny }}"
+  become: yes

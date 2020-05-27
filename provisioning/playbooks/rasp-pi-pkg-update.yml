@@ -11,7 +11,7 @@
   tasks:
     - name: Perform apt tasks as root
       block:
-      - name: Perform apt update
+      - name: Perform apt upgrade
         apt:
           upgrade: safe
           update_cache: yes

@@ -1,0 +1,10 @@
+---
+- name: Run apt actions as root
+  block:
+  # By default, the unattended-upgrades package should configure us to run
+  # security updates once every day.
+  - name: Install unattended-upgrades package
+    apt:
+      name: unattended-upgrades
+      state: present
+  become: yes

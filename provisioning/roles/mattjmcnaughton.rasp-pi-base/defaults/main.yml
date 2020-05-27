@@ -1,2 +1,24 @@
 ---
-# defaults file for mattjmcnaughton.rasp-pi-base
+mattjmcnaughton_rasp_pi_base_packages_to_install:
+  - curl
+  - git
+  - gnupg2
+  - jq
+  - htop
+  - iotop
+  - iptraf
+  - ncdu
+  - nmap
+  - parallel
+  - silversearcher-ag
+  - tmux
+  - vim
+
+mattjmcnaughton_rasp_pi_base_config_files:
+  - tmux.conf
+  - vimrc
+
+mattjmcnaughton_rasp_pi_base_ufw_incoming_ports_to_allow:
+  - "22"
+
+mattjmcnaughton_rasp_pi_base_ufw_incoming_ports_to_deny: []
