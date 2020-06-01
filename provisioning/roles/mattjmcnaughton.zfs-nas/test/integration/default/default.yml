@@ -1,0 +1,24 @@
+- hosts: all
+
+  tasks:
+    - name: Create user
+      user:
+        name: "mattjmcnaughton"
+        create_home: yes
+
+    - name: Create loopback devices
+      shell: |
+        argv:
+          umount /opt/test || true
+          rm -rf /opt/test || true
+          losetup -d /dev/loop0 || true
+          losetup -d /dev/loop1 || true
+          rm /tmp/loopbackfile0.img || true
+          rm /tmp/loopbackfile1.img || true
+          dd if=/dev/zero of=/tmp/loopbackfile0.img bs=100M count=10
+          dd if=/dev/zero of=/tmp/loopbackfile1.img bs=100M count=10
+          losetup -fP /tmp/loopbackfile0.img
+          losetup -fP /tmp/loopbackfile1.img
+
+    - include_role:
+        name: mattjmcnaughton.zfs-nas

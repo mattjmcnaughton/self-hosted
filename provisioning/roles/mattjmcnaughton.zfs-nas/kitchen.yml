@@ -1,0 +1,31 @@
+---
+driver:
+  # Use vagrant because we are relying upon systemd services.
+  name: vagrant
+
+platforms:
+  # Will run tests for each platform
+  - name: ubuntu-20.04
+    driver_config:
+      box: bento/ubuntu-20.04
+
+# Will automatically execute the playbook in
+# `test/integration/${suite}/${suite}.yml`
+provisioner:
+  hosts: test-kitchen
+  name: ansible_playbook
+  roles_path: ../
+  ansible_verbose: false
+  # Setting to multiverse is a hack until `ppa:ansible/ansible` works for focal.
+  # Since the `multiverse` ppa is already enabled, this is essentially a no-op.
+  # It allows the apt repo step to succeed and we can proceed to install ansible
+  # via the normal focal repo (not the ansible/ansible ppa).
+  ansible_apt_repo: "multiverse"
+  require_chef_for_busser: false
+
+# Will automatically run tests in `test/integration/${suite}`
+verifier:
+  name: inspec
+
+suites:
+  - name: default

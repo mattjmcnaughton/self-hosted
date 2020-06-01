@@ -1,4 +1,4 @@
-Role Name
+mattjmcnaughton.rasp-pi-base
 =========
 
 Base configuration for rasp pi server.
