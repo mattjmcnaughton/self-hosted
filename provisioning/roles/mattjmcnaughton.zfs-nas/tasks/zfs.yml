@@ -1,0 +1,27 @@
+---
+- name: Execute zfs actions as root
+  block:
+    - name: Gather facts around the specific zpool we're managing
+      zpool_facts:
+        name: "{{ item.pool }}"
+      register: zpool_facts
+      # Task will fail if the zpool doesn't exist.
+      ignore_errors: true
+
+    - name: Determine if should create zpool
+      set_fact:
+        should_create_zpool: zpool_facts.failed == true
+
+    - name: Create zpool
+      command: "zpool create {{ item.pool }} {{ item.vdevs | join(' ') }}"
+      when: should_create_zpool
+
+    - name: Create zfs dataset
+      zfs:
+        name: "{{ dataset.name }}"
+        state: present
+        extra_zfs_properties: "{{ dataset.properties }}"
+      loop: "{{ item.datasets }}"
+      loop_control:
+        loop_var: dataset
+  become: yes

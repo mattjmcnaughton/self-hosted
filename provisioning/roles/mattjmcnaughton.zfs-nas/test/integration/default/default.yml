@@ -22,3 +22,13 @@
 
     - include_role:
         name: mattjmcnaughton.zfs-nas
+      vars:
+        mattjmcnaughton_zfs_nas_zfs_specifications:
+          - pool: tank
+            vdevs:
+              - /dev/loop0
+              - /dev/loop1
+            datasets:
+              - name: tank/test
+                # We will set `encryption` here.
+                properties: {}

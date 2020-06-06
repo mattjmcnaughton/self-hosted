@@ -1,3 +1,7 @@
 ---
 - name: Install packages
   include_tasks: "packages.yml"
+
+- name: Manage zpool and datasets
+  include_tasks: "zfs.yml"
+  with_items: "{{ mattjmcnaughton_zfs_nas_zfs_specifications }}"
