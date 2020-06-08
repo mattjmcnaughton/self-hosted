@@ -26,8 +26,11 @@
 - Determine the IP address of the machine. It should be either `10.0.0.X` or
   `192.168.0.X`. You can either use `ifconfig` (you may need to install
   `net-tools`) on the Pi, `ip addr` on the Pi,
-  or run `nmap -p 22 --open -sV (10.0.0.0/24|192.168.0.0/24)`
+  or run `nmap -Pn -p 22 --open -sV (10.0.0.0/24|192.168.0.0/24)`
   on the machine from which we will run the `rasp-pi-from-scratch.yml` playbook.
+  - We need to `-Pn` because, after we turn on the firewall, we've blocked the
+    port that `nmap` uses to send pings to determine if the host is up. `-Pn`
+    skips the up check.
 
 ## Running init-from-scratch playbook
 

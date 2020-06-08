@@ -24,7 +24,36 @@ control 'zfs-nas-02' do
     its('exit_status') { should eq 0 }
   end
 
+  describe command("zfs get -Hp all tank") do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match (/type\tfilesystem/) }
+    its('stdout') { should match (/encryption\toff/) }
+    its('stdout') { should match (/mounted\tyes/) }
+  end
+
   describe command("zfs get -Hp all tank/test") do
     its('exit_status') { should eq 0 }
+    its('stdout') { should match (/type\tfilesystem/) }
+    its('stdout') { should match (/encryption\toff/) }
+    its('stdout') { should match (/mounted\tyes/) }
+  end
+
+  describe command("zfs get -Hp all tank/test-encrypted") do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match (/type\tfilesystem/) }
+    its('stdout') { should match (/encryption\taes-256-ccm/) }
+    its('stdout') { should match (/keyformat\tpassphrase/) }
+    its('stdout') { should match (/mounted\tyes/) }
+  end
+end
+
+control 'zfs-nas-03' do
+  title 'Mounting'
+  impact 1.0
+
+  describe directory('/tank/test/sample_dir') do
+    it { should exist }
+    its('mode') { should cmp '0755' }
+    its('owner') { should eq 'mattjmcnaughton' }
   end
 end

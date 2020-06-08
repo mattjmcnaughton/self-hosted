@@ -1,7 +1,30 @@
 ---
 - hosts: nfs
+
+  vars_prompt:
+    - name: "zfs_encryption_password"
+      prompt: "zfs_encryption_password"
+      confirm: yes
+      private: yes
+
   tasks:
     - include_role:
         name: mattjmcnaughton.rasp-pi-base
       vars:
         mattjmcnaughton_rasp_pi_base_username: "mattjmcnaughton"
+
+    - include_role:
+        name: mattjmcnaughton.zfs-nas
+      vars:
+        mattjmcnaughton_zfs_nas_zfs_specifications:
+          - pool: tank
+            vdevs:
+              - /dev/sda
+            datasets:
+              - name: tank/mattjmcnaughton-encrypted
+                options_str: "-o encryption=on -o keyformat=passphrase -o keylocation=prompt"
+                encryption_passphrase: "{{ zfs_encryption_password }}"
+                dirs:
+                  - relative_path: nas
+                    owner: mattjmcnaughton
+                    mode: '0755'

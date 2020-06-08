@@ -30,5 +30,15 @@
               - /dev/loop1
             datasets:
               - name: tank/test
-                # We will set `encryption` here.
-                properties: {}
+                options_str: ""
+                dirs:
+                  - relative_path: sample_dir
+                    owner: mattjmcnaughton
+                    mode: '0755'
+              - name: tank/test-encrypted
+                options_str: "-o encryption=on -o keyformat=passphrase -o keylocation=prompt"
+                encryption_passphrase: "testtest"
+                dirs:
+                  - relative_path: sample_dir
+                    owner: mattjmcnaughton
+                    mode: '0755'

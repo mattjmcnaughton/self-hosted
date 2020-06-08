@@ -5,5 +5,3 @@ mattjmcnaughton_zfs_nas_packages_to_install:
   #- samba  # If I decide to use samba
   #- pdbedit # If I decide to use samba
   #- nfs-kernel-server  # If I decide to use nfs
-
-mattjmcnaughton_zfs_nas_zfs_specifications: []

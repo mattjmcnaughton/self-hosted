@@ -1,0 +1,61 @@
+---
+- name: Execute zfs actions as root
+  block:
+    - name: Gather facts around dataset we're managing
+      zfs_facts:
+        name: "{{ item.name }}"
+      register: dataset_facts
+      # Task will fail if dataset doesn't exist
+      ignore_errors: true
+
+    - name: Determine if we should create dataset
+      set_fact:
+        should_create_dataset: "{{ dataset_facts.failed == true | bool }}"
+
+    - name: Determine if we should encrypt the dataset
+      set_fact:
+        should_encrypt_dataset: "{{ item.encryption_passphrase is defined | bool }}"
+
+    # If we're going to create an encrypted dataset, we need to ensure `pexpect`
+    # is available on the host.
+    - name: Install pexpect
+      apt:
+        pkg: python3-pexpect
+        state: present
+      when:
+        - should_create_dataset
+        - should_encrypt_dataset
+
+    # Because we specify the passphrase locally, when we reboot the RaspPi
+    # containing the encrypted partition, we need to use `zfs mount DATASET`,
+    # which will prompt as for the passphrase.
+    - name: Create encrypted zfs dataset
+      expect:
+        command: "zfs create {{ item.options_str }} {{ item.name }}"
+        responses:
+          Enter passphrase: "{{ item.encryption_passphrase }}"
+          Re-enter passphrase: "{{ item.encryption_passphrase }}"
+      no_log: true
+      when:
+        - should_create_dataset
+        - should_encrypt_dataset
+
+    - name: Create unencyrpted zfs dataset
+      command: "zfs create {{ item.options_str }} {{ item.name }}"
+      no_log: true
+      when:
+        - should_create_dataset
+        - not should_encrypt_dataset
+
+    - name: Create directories
+      file:
+        path: "/{{ item.name }}/{{ dir.relative_path }}"
+        state: directory
+        owner: "{{ dir.owner }}"
+        group: "{{ dir.owner }}"
+        mode: "{{ dir.mode }}"
+      loop: "{{ item.dirs }}"
+      loop_control:
+        loop_var: dir
+
+  become: yes
