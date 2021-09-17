@@ -6,6 +6,11 @@
   find images for the microSD card [here](https://ubuntu.com/download/raspberry-pi).
 - You can find instructions for creating a bootable microSD
   [here](https://ubuntu.com/tutorials/create-an-ubuntu-image-for-a-raspberry-pi-on-ubuntu#1-overview).
+- Create bootable SD card w/ the following:
+  - Identify microsd via `sudo fdisk -l`. For tutorial, assume `/dev/sdX`
+  - Ensure `/dev/sdX` is not mounted with `sudo umount /dev/sdX`.
+  - Copy the image with `sudo dd bs=4M status=progress if=PATH_TO_IMG
+    of=/dev/sdX`.
 
 ## First Boot
 
