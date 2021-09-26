@@ -1,0 +1,13 @@
+---
+- name: Install docker via our docker role
+  include_role:
+    name: mattjmcnaughton.docker
+
+- name: Run vidzou container
+  docker_container:
+    name: homeassistant
+    image: "{{ home_assistant_image_tag }}"
+    state: started
+    restart_policy: unless-stopped
+    # See https://fleet.linuxserver.io/image?name=linuxserver/homeassistant for
+    # what else we want to speciy.
