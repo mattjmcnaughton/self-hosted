@@ -10,7 +10,9 @@
     `xz`, run `unxz PATH`.
   - Ensure `/dev/sdX` is not mounted with `sudo umount /dev/sdX`.
   - Copy the image with `sudo dd bs=4M status=progress if=PATH_TO_IMG
-    of=/dev/sdX`.
+    of=/dev/sdX && sync`.
+  - Perform initial boot, ensuring that we do not have any USB, etc... plugged
+    in.
 
 ## First Boot
 
@@ -23,7 +25,7 @@
   Ethernet, it'll be WiFi. To configure WiFi, perform the following as the root
   user:
   - `wpa_passphrase "SSID" "PASSWD" > /etc/wpa_supplicant/wpa_supplicant.conf"
-  - `wpa_supplicant -B -wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf"
+  - `wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf"
   - `sudo dhclient wlan0`
 - The machine should now be connected to the Internet - verify via `ping`.
 - Verify that `ssh` is running via `sudo systemctl status ssh.service`. It
@@ -37,11 +39,14 @@
     port that `nmap` uses to send pings to determine if the host is up. `-Pn`
     skips the up check.
 
-## Running init-from-scratch playbook
+## One-time provisioning
 
-- TBD
+- Run `ansible-playbook -u ubuntu -K --ask-pass -i IP_ADDRESS, rasp-pi-from-scratch-init.yml`
+- Reboot the rasp-pi.
+- Run `ansible-playbook -K --ask-pass -i IP_ADDRESS, rasp-pi-cleanup.yml`
 
-## Running configuration playbook
+## Running service specific playbook
 
-- Run a playbook which applies both the `mattjmcnaughton.rasp-pi-cleanup` and
-  `mattjmcnaughton-rasp-pi-base` roles.
+- Run `ansible-playbook -K PLAYBOOK`.
+  - Note, all service specific playbooks should contain the `rasp-pi-base` role as the first
+    included role.

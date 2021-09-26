@@ -5,11 +5,5 @@
 # For now, the IPs should stay relatively constant if I don't restart the Pi's
 # (which I don't plan to do).
 
-[git]
-10.0.0.110
-
-[nfs]
-10.0.0.182
-
-[wireguard]
-10.0.0.221
+[home-assistant]
+192.168.1.178
