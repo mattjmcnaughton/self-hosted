@@ -44,7 +44,6 @@
     - name: Install docker py library
       apt:
         pkg:
-          - python-docker
           - python3-docker
         state: present
   become: yes

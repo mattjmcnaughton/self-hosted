@@ -6,9 +6,9 @@ driver:
 
 platforms:
   # Will run tests for each platform
-  - name: ubuntu-18.04
+  - name: ubuntu-20.04
     driver_config:
-      box: ubuntu/bionic64
+      box: ubuntu/focal64
 
 # Will automatically execute the playbook in
 # `test/integration/${suite}/${suite}.yml`
