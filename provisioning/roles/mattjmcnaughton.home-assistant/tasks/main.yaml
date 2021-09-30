@@ -5,11 +5,12 @@
 
 - name: Create directory for homeassistant data
   ansible.builtin.file:
-    path: "{{ home_assistant_host_data_dir }}"
+    path: "{{ mattjmcnaughton_home_assistant_host_data_dir }}"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"  # Assuming an equivalent group exists for the user.
     state: directory
     mode: "0755"
+  become: yes
 
 # See https://docs.linuxserver.io/images/docker-homeassistant for the full list
 # of options we can specify.
@@ -17,8 +18,8 @@
   # Should be replaced w/ `community.general.docker_container` (but I need to
   # determine how I want to specify installing this collection).
   docker_container:
-    name: homeassistant
-    image: "{{ home_assistant_image_tag }}"
+    name: "{{ mattjmcnaughton_home_assistant_container_name }}"
+    image: "{{ mattjmcnaughton_home_assistant_image_tag }}"
     state: started
     restart_policy: unless-stopped
     # We set `net=host` so that homeassistant can discover devices on its
@@ -28,8 +29,9 @@
     # ports open on the container are also open from the host.
     network_mode: host
     env:
-      TZ: "{{ home_assistant_tz }}"
+      TZ: "{{ mattjmcnaughton_home_assistant_tz }}"
       PUID: "{{ ansible_real_user_id | quote }}"
       PGID: "{{ ansible_real_group_id | quote }}"
     volumes:
-      - "{{ home_assistant_host_data_dir }}:{{ home_assistant_container_data_dir }}"
+      - "{{ mattjmcnaughton_home_assistant_host_data_dir }}:{{ mattjmcnaughton_home_assistant_container_data_dir }}"
+  become: yes

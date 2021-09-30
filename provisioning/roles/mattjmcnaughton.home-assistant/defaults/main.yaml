@@ -1,10 +1,12 @@
 ---
-home_assistant_version: "version-2021.9.7"
-home_assistant_image_tag: "ghcr.io/linuxserver/homeassistant:{{ home_assistant_version }}"
-home_assistant_tz: "America/New_York"
+mattjmcnaughton_home_assistant_version: "version-2021.9.7"
+mattjmcnaughton_home_assistant_image_tag: "ghcr.io/linuxserver/homeassistant:{{ mattjmcnaughton_home_assistant_version }}"
+mattjmcnaughton_home_assistant_tz: "America/New_York"
+
+mattjmcnaughton_home_assistant_container_name: homeassistant
 
 # Need to update when use in "production".
-home_assistant_host_data_dir: "/tmp/home_assistant"
+mattjmcnaughton_home_assistant_host_data_dir: "/tmp/home_assistant"
 
 # Specified in https://docs.linuxserver.io/images/docker-homeassistant.
-home_assistant_container_data_dir: "/config"
+mattjmcnaughton_home_assistant_container_data_dir: "/config"
