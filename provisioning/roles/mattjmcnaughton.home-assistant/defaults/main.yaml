@@ -2,6 +2,7 @@
 mattjmcnaughton_home_assistant_version: "version-2021.9.7"
 mattjmcnaughton_home_assistant_image_tag: "ghcr.io/linuxserver/homeassistant:{{ mattjmcnaughton_home_assistant_version }}"
 mattjmcnaughton_home_assistant_tz: "America/New_York"
+mattjmcnaughton_home_assistant_port: 8123
 
 mattjmcnaughton_home_assistant_container_name: homeassistant
 

@@ -4,11 +4,10 @@
 # Run w/ the following:
 # `ansible-playbook -K home-assistant.yml`
 #
-# Currently, we access the web ui by opening 8123 on the firewall,
-# and can access home-assistant via `IP:8123`.
-# In the medium-term, we will most likely want to place nginx in front of the container (with our
-# mattjmcnaughton.io SSL cert) and then open up port 443. We will need to solve
-# internal DNS, but in the short term, we can hack that with `/etc/hosts`
+# Currently, we access the web ui by opening 443 on the firewall,
+# and can access home-assistant via `https://IP`.
+# We still need to solve internal DNS,
+# but in the short term, we can hack that with `/etc/hosts`
 # updates.
 - hosts: home-assistant
   tasks:
@@ -18,10 +17,16 @@
         mattjmcnaughton_rasp_pi_base_username: "mattjmcnaughton"
         mattjmcnaughton_rasp_pi_base_ufw_incoming_ports_to_allow:
           - "22"
-          - "8123"
+          - "80"
+          - "443"
     - include_role:
         name: mattjmcnaughton.home-assistant
       vars:
         # `/opt/fs` is created by our rasp-pi-from-scratch-init.yml playbook.
         # Long term, we may want to have this directory on an NFS share or ...
         mattjmcnaughton_home_assistant_host_data_dir: /opt/fs/homeassistant
+
+    # We leave adding the `mattjmcnaughton.io` certs as a separate playbook
+    # via the `rasp-pi-copy-ssl-certs.yml` playbook.
+    - debug:
+        msg: "If this machine is newly provisioned, please run the `rasp-pi-copy-ssl-certs.yml` playbook."

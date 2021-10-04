@@ -1,0 +1,4 @@
+---
+mattjmcnaughton_ssl_cert_copy_local_path_to_fullchain_pem: ""
+mattjmcnaughton_ssl_cert_copy_local_path_to_privkey_pem: ""
+mattjmcnaughton_ssl_cert_copy_dest_cert_prefix: ""

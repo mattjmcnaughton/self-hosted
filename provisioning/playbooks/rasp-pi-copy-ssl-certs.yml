@@ -1,0 +1,20 @@
+---
+# Update ssl certs for hosts which use ssl-certs.
+#
+# Run w/ the following:
+# `ansible-playbook -K rasp-pi-copy-ssl-certs.yml`
+
+- hosts: home-assistant
+
+  vars_prompt:
+    - name: "local_path_to_fullchain_pem"
+      default: "/tmp/mattjmcnaughton-io-ssl-certs/fullchain.pem"
+    - name: "local_path_to_privkey_pem"
+      default: "/tmp/mattjmcnaughton-io-ssl-certs/privkey.pem"
+  tasks:
+    - include_role:
+        name: mattjmcnaughton.ssl-cert-copy
+      vars:
+        mattjmcnaughton_ssl_cert_copy_local_path_to_fullchain_pem: "{{ local_path_to_fullchain_pem }}"
+        mattjmcnaughton_ssl_cert_copy_local_path_to_privkey_pem: "{{ local_path_to_privkey_pem }}"
+        mattjmcnaughton_ssl_cert_copy_dest_cert_prefix: "mattjmcnaughton.io"

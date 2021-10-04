@@ -1,0 +1,59 @@
+---
+- name: Execute SSL provisioning as root
+  block:
+    - name: Generate OpenSSL private key
+      openssl_privatekey:
+        path: "{{ nginx_ssl_selfsigned_privatekey_path }}"
+        owner: root
+
+    - name: Generate OpenSSL CSR
+      openssl_csr:
+        path: "{{ nginx_ssl_selfsigned_csr_path }}"
+        privatekey_path: "{{ nginx_ssl_selfsigned_privatekey_path }}"
+        common_name: "{{ nginx_common_name }}"
+        owner: root
+
+    - name: Generate a self-signed OpenSSL certificate
+      openssl_certificate:
+        path: "{{ nginx_ssl_selfsigned_cert_path }}"
+        csr_path: "{{ nginx_ssl_selfsigned_csr_path }}"
+        privatekey_path: "{{ nginx_ssl_selfsigned_privatekey_path }}"
+        provider: selfsigned
+        owner: root
+        mode: 0600
+      notify: reload nginx
+
+    - name: Generate Diffie-Hellman parameters
+      openssl_dhparam:
+        path: "{{ nginx_dhparams_path }}"
+        size: "{{ nginx_dhparams_size }}"
+        owner: root
+      notify: reload nginx
+
+    - name: Check if const link for privatekey already exists (i.e. already using real certs)
+      stat:
+        path: "{{ nginx_ssl_privatekey_path }}"
+      register: privatekey_check
+
+    - name: Create symlink from const link to self signed privkey if necessary
+      file:
+        src: "{{ nginx_ssl_selfsigned_privatekey_path }}"
+        dest: "{{ nginx_ssl_privatekey_path }}"
+        state: link
+        owner: root
+      when: privatekey_check.stat.exists == False
+
+    - name: Check if const link for cert already exists (i.e. already using real certs)
+      stat:
+        path: "{{ nginx_ssl_cert_path }}"
+      register: cert_check
+
+    - name: Create symlink from const link to self signed cert if necessary
+      file:
+        src: "{{ nginx_ssl_selfsigned_cert_path }}"
+        dest: "{{ nginx_ssl_cert_path }}"
+        state: link
+        owner: root
+      when: cert_check.stat.exists == False
+
+  become: yes

@@ -1,0 +1,49 @@
+---
+- name: Stop nginx while we replace the certs
+  ansible.builtin.service:
+    name: nginx
+    state: stopped
+  become: yes
+
+- name: Copy over ssl fullchain.pem
+  ansible.builtin.copy:
+    src: "{{ mattjmcnaughton_ssl_cert_copy_local_path_to_fullchain_pem }}"
+    dest: "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/certs/fullchain.pem"
+    mode: "0600"
+  become: yes
+
+- name: Copy over ssl privkey.pem
+  ansible.builtin.copy:
+    src: "{{ mattjmcnaughton_ssl_cert_copy_local_path_to_privkey_pem }}"
+    dest: "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/private/privkey.pem"
+    mode: "0600"
+  become: yes
+
+- name: Remove the self-signed certs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/certs/{{ mattjmcnaughton_ssl_cert_copy_dest_cert_prefix }}.crt"
+    - "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/private/{{ mattjmcnaughton_ssl_cert_copy_dest_cert_prefix }}.key"
+  become: yes
+
+- name: Symlink crt
+  ansible.builtin.file:
+    src: "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/certs/fullchain.pem"
+    dest: "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/certs/{{ mattjmcnaughton_ssl_cert_copy_dest_cert_prefix }}.crt"
+    state: link
+  become: yes
+
+- name: Symlink privkey
+  ansible.builtin.file:
+    src: "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/private/privkey.pem"
+    dest: "{{ mattjmcnaughton_ssl_cert_copy_default_ssl_path }}/private/{{ mattjmcnaughton_ssl_cert_copy_dest_cert_prefix }}.key"
+    state: link
+  become: yes
+
+- name: Start nginx after successfully updating certs
+  service:
+    name: nginx
+    state: started
+  become: yes

@@ -1,0 +1,21 @@
+---
+- name: Perform install actions as root
+  block:
+    - name: Install apt deps
+      apt:
+        name:
+          # Include awscli for managing ssl certs.
+          # May install elsewhere later... but should be fine for now.
+          - awscli
+          - nginx
+        state: present
+
+    - name: Install python-passlib for htpasswd
+      apt:
+        name:
+          - python-passlib
+          - python3-passlib
+        state: present
+      when: nginx_vhost_auth_basic
+
+  become: yes

@@ -3,6 +3,27 @@
   include_role:
     name: mattjmcnaughton.docker
 
+# Note, this leaves us with only self-signed certs... we will copy over
+# the proper certs via a different playbook.
+- name: Install nginx via our nginx role
+  include_role:
+    name: mattjmcnaughton.nginx
+  vars:
+    nginx_common_name: "mattjmcnaughton.io"
+    nginx_vhost_auth_basic: false
+    nginx_vhost_location_config: |
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+
+        # Configuration necessary for websockets - see
+        # https://nginx.org/en/docs/http/websocket.html.
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+
+        proxy_pass http://localhost:{{ mattjmcnaughton_home_assistant_port }};
+      }
+
 - name: Create directory for homeassistant data
   ansible.builtin.file:
     path: "{{ mattjmcnaughton_home_assistant_host_data_dir }}"
