@@ -19,6 +19,7 @@
           - "22"
           - "80"
           - "443"
+          - "1883"  # Need to allow traffic to mqtt broker
     - include_role:
         name: mattjmcnaughton.home-assistant
       vars:
