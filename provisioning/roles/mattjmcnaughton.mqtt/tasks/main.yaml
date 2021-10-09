@@ -1,0 +1,9 @@
+---
+- name: Run platform specific install commands
+  include_tasks: "install-{{ ansible_os_family }}.yaml"
+
+- name: Set config
+  include_tasks: "config.yaml"
+
+- name: Provision users
+  include_tasks: "users.yaml"

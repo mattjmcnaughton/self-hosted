@@ -1,0 +1,3 @@
+---
+mattjmcnaughton_mqtt_mosquitto_passwd_path: /etc/mosquitto/passwd
+mattjmcnaughton_mqtt_mosquitto_conf_path: /etc/mosquitto/conf.d/default.conf

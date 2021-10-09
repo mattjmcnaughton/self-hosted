@@ -1,0 +1,10 @@
+---
+- name: Set mosquitto config file
+  ansible.builtin.template:
+    src: mosquitto.default.conf.j2
+    dest: "{{ mattjmcnaughton_mqtt_mosquitto_conf_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart mosquitto
+  become: yes

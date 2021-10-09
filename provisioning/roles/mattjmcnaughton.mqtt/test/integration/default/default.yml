@@ -1,0 +1,8 @@
+- hosts: all
+
+  tasks:
+    - include_role:
+        name: mattjmcnaughton.mqtt
+      vars:
+        mattjmcnaughton_mqtt_username_password_list:
+          - { username: "test", password: "password" }
