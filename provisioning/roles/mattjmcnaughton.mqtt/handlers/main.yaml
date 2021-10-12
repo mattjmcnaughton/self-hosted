@@ -5,3 +5,10 @@
     state: restarted
   listen: "restart mosquitto"
   become: yes
+
+- name: reload mosquitto
+  ansible.builtin.service:
+    name: mosquitto
+    state: reloaded
+  listen: "reload mosquitto"
+  become: yes

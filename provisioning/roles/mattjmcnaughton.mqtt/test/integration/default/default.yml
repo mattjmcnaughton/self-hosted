@@ -5,4 +5,4 @@
         name: mattjmcnaughton.mqtt
       vars:
         mattjmcnaughton_mqtt_username_password_list:
-          - { username: "test", password: "password" }
+          - { username: "test", password: "password", hashed_password: "$6$SVbn5uNZrR+EM5Dz$juXHeUKq+DfhuFQVV41GBG2bEl/+PIfhAoJ6yQMecssjsI71laq5j6r2lfbOi9FbvtRw6IScCBEWuEYo+S6gsQ==" }

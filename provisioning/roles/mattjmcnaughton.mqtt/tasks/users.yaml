@@ -1,16 +1,11 @@
 ---
-- name: "Ensure mosquitto passwd file exists"
-  ansible.builtin.file:
-    state: touch  # need to use touch to force file creation
-    path: "{{ mattjmcnaughton_mqtt_mosquitto_passwd_path }}"
+- name: Create mosquitto passwd file
+  ansible.builtin.template:
+    src: mosquitto.passwd.j2
+    dest: "{{ mattjmcnaughton_mqtt_mosquitto_passwd_path }}"
     owner: root
     group: root
     mode: "0644"
-  become: yes
-
-- name: "Provision mqtt users"
-  command: "mosquitto_passwd -b {{ mattjmcnaughton_mqtt_mosquitto_passwd_path }} {{ item.username }} {{ item.password }}"
-  loop: "{{ mattjmcnaughton_mqtt_username_password_list }}"
+  notify: reload mosquitto
   no_log: True
-  notify: restart mosquitto
   become: yes

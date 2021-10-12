@@ -2,7 +2,7 @@
 # Provision home-assistant on rasp-pi
 #
 # Run w/ the following:
-# `ansible-playbook -K home-assistant.yml`
+# `ansible-playbook -K --ask-vault-pass home-assistant.yml`
 #
 # Currently, we access the web ui by opening 443 on the firewall,
 # and can access home-assistant via `https://IP`.
@@ -11,6 +11,7 @@
 # updates.
 - hosts: home-assistant
   tasks:
+    - include_vars: secrets.yml
     - include_role:
         name: mattjmcnaughton.rasp-pi-base
       vars:
@@ -20,6 +21,11 @@
           - "80"
           - "443"
           - "1883"  # Need to allow traffic to mqtt broker
+    - include_role:
+        name: mattjmcnaughton.mqtt
+      vars:
+        # Contains sensitive information... comes from `secrets.yaml`
+        mattjmcnaughton_mqtt_username_password_list: "{{ mqtt_username_password_list }}"
     - include_role:
         name: mattjmcnaughton.home-assistant
       vars:
