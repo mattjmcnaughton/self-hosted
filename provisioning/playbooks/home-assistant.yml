@@ -32,6 +32,9 @@
         # `/opt/fs` is created by our rasp-pi-from-scratch-init.yml playbook.
         # Long term, we may want to have this directory on an NFS share or ...
         mattjmcnaughton_home_assistant_host_data_dir: /opt/fs/homeassistant
+        mattjmcnaughton_home_assistant_mqtt_config:
+          username: homeassistant
+          password: "{{ home_assistant_mqtt_password }}"
 
     # We leave adding the `mattjmcnaughton.io` certs as a separate playbook
     # via the `rasp-pi-copy-ssl-certs.yml` playbook.

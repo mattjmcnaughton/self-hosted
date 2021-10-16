@@ -1,0 +1,21 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+mqtt:
+  broker: localhost
+  port: 1883
+  username: {{ mattjmcnaughton_home_assistant_mqtt_config.username }}
+  password: !secret mqtt_password
+
+# At least for now, I can't find a way to specify the `Tasmota` integration via source control.
+# We need to add it manually.

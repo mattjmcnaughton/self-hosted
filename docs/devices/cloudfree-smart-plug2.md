@@ -11,9 +11,11 @@ https://cloudfree.shop/product/cloudfree-smart-plug-runs-tasmota/
   it's running on the same machine as the homeassistant container. It could
   theoretically be a different Rasp Pi later.
 - We assume Home Assistant has been configured to use this mqtt integration, via
-  the [mqtt integration](https://www.home-assistant.io/integrations/mqtt/).
+  the [mqtt integration](https://www.home-assistant.io/integrations/mqtt/). This
+  occurs automatically via Ansible.
 - We assume that the [Tasmota integration](https://www.home-assistant.io/integrations/tasmota/)
-  has already been configured for Home Assistant.
+  has already been configured for Home Assistant. As far as I can tell, this
+  configuration can only occur via the UI. It's one-click from the UI.
 
 ## Setup instructions
 

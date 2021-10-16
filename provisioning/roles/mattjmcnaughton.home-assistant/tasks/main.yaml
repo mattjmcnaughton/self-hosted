@@ -33,6 +33,25 @@
     mode: "0755"
   become: yes
 
+- name: Template the configuration.yaml file
+  ansible.builtin.template:
+    src: homeassistant.configuration.yaml.j2
+    dest: "{{ mattjmcnaughton_home_assistant_configuration_path }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"  # Assuming an equivalent group exists for the user.
+    mode: "0644"
+  become: yes
+
+- name: Template the secrets.yaml file
+  ansible.builtin.template:
+    src: homeassistant.secrets.yaml.j2
+    dest: "{{ mattjmcnaughton_home_assistant_secrets_path }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"  # Assuming an equivalent group exists for the user.
+    mode: "0644"
+  no_log: true
+  become: yes
+
 # See https://docs.linuxserver.io/images/docker-homeassistant for the full list
 # of options we can specify.
 - name: Run homeassistant container
@@ -42,6 +61,7 @@
     name: "{{ mattjmcnaughton_home_assistant_container_name }}"
     image: "{{ mattjmcnaughton_home_assistant_image_tag }}"
     state: started
+    restart: yes  # pick up config changes
     restart_policy: unless-stopped
     # We set `net=host` so that homeassistant can discover devices on its
     # network.

@@ -9,5 +9,8 @@ mattjmcnaughton_home_assistant_container_name: homeassistant
 # Need to update when use in "production".
 mattjmcnaughton_home_assistant_host_data_dir: "/tmp/home_assistant"
 
+mattjmcnaughton_home_assistant_configuration_path: "{{ mattjmcnaughton_home_assistant_host_data_dir }}/configuration.yaml"
+mattjmcnaughton_home_assistant_secrets_path: "{{ mattjmcnaughton_home_assistant_host_data_dir }}/secrets.yaml"
+
 # Specified in https://docs.linuxserver.io/images/docker-homeassistant.
 mattjmcnaughton_home_assistant_container_data_dir: "/config"

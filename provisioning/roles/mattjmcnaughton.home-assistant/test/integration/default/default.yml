@@ -3,3 +3,7 @@
   tasks:
     - include_role:
         name: mattjmcnaughton.home-assistant
+      vars:
+        mattjmcnaughton_home_assistant_mqtt_config:
+          username: test
+          password: password
